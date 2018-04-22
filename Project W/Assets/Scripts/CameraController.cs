@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
 
 
     private GameObject player;
-    //private Control playerScript;
+    private PlayerController playerScript;
     private Transform target;
 
     [SerializeField]
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-       // playerScript = (Control)player.GetComponent(typeof(Control));
+        playerScript = (PlayerController)player.GetComponent(typeof(PlayerController));
         target = player.transform;
 
 
@@ -42,18 +42,13 @@ public class CameraController : MonoBehaviour {
     private void moveCamera()
     {
 
-       // bool facingRight = playerScript.getFacingRight();
+        bool facingRight = playerScript.getFacingRight();
 
 
 
 
         Vector3 desiredposition;
 
-        desiredposition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredposition, smoothSpeed * Time.deltaTime);
-        transform.position = smoothedPosition;
-
-        /*
         if (facingRight)
         {
             desiredposition = target.position + offset;
@@ -67,7 +62,6 @@ public class CameraController : MonoBehaviour {
             transform.position = smoothedPosition;
         }
 
-        */
 
 
 

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody myRigidBody;
     private bool grounded;
+    private bool onWall;
 
     private bool facingRight;
 
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 
         HandleInput();
         Flip(horizontal);
+        Debug.Log(onWall);
 	}
 
     private void FixedUpdate()
@@ -45,7 +47,7 @@ public class PlayerController : MonoBehaviour {
     private void HandleInput()
     {
         //Jump
-        if(Input.GetButtonDown("Jump") && grounded)
+        if(Input.GetButtonDown("Jump") && (grounded || onWall))
         {
             jumpButton = true;
         }
@@ -54,7 +56,10 @@ public class PlayerController : MonoBehaviour {
     private void Movement(float horizontal)
     {
         //Horizontal Movement
-        myRigidBody.velocity = new Vector2(horizontal * moveSpeed, myRigidBody.velocity.y);
+        if (!onWall)
+        {
+            myRigidBody.velocity = new Vector2(horizontal * moveSpeed, myRigidBody.velocity.y);
+        }
 
 
 
@@ -64,6 +69,28 @@ public class PlayerController : MonoBehaviour {
             myRigidBody.AddForce(new Vector2(0, jumpForce));
             jumpButton = false;
         }
+
+        //Wall Jump
+        if(!grounded && jumpButton && onWall)
+        {
+            if (facingRight)
+            {
+                myRigidBody.AddForce(new Vector2(-jumpForce*4, jumpForce));
+                jumpButton = false;
+            }
+            if (!facingRight)
+            {
+                myRigidBody.AddForce(new Vector2(jumpForce*4, jumpForce));
+                jumpButton = false;
+            }
+        }
+
+        //Wall Slide
+        if (onWall)
+        {
+           // myRigidBody.velocity = new Vector2(0, -2f);
+        }
+
     }
 
     private void Flip(float horizontal)
@@ -84,7 +111,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
+    /*
     private void OnTriggerStay(Collider other)
     {
 
@@ -98,5 +125,21 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         grounded = false;
+    }
+    */
+
+    public void setGrounded(bool isGrounded)
+    {
+        grounded = isGrounded;
+    }
+
+    public void setOnWall(bool _onWall)
+    {
+        onWall = _onWall;
+    }
+
+    public bool getFacingRight()
+    {
+        return facingRight;
     }
 }

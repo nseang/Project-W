@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour {
     private float jumpForce;
     [SerializeField]
     private float moveSpeed;
+    [SerializeField]
+    Rigidbody pBullet;
+    [SerializeField]
+    GameObject[] faces;
 
 
     private Rigidbody myRigidBody;
@@ -34,61 +38,43 @@ public class PlayerController : MonoBehaviour {
 
         HandleInput();
         Flip(horizontal);
-        Debug.Log(onWall);
+        //Debug.Log();
 	}
 
     private void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        Movement(horizontal);
+        Movement(horizontal, vertical);
     }
 
     private void HandleInput()
     {
         //Jump
-        if(Input.GetButtonDown("Jump") && (grounded || onWall))
+        if(Input.GetButtonDown("Jump") && grounded)
         {
             jumpButton = true;
         }
+
+        //Shoot
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
     }
 
-    private void Movement(float horizontal)
+    private void Movement(float horizontal, float vertical)
     {
-        //Horizontal Movement
-        if (!onWall)
-        {
-            myRigidBody.velocity = new Vector2(horizontal * moveSpeed, myRigidBody.velocity.y);
-        }
+        //Movement
+        myRigidBody.velocity = new Vector3(horizontal * moveSpeed, myRigidBody.velocity.y,vertical * (moveSpeed/2));
 
-
-
+        
         //Jump
         if (grounded && jumpButton)
         {
             myRigidBody.AddForce(new Vector2(0, jumpForce));
             jumpButton = false;
-        }
-
-        //Wall Jump
-        if(!grounded && jumpButton && onWall)
-        {
-            if (facingRight)
-            {
-                myRigidBody.AddForce(new Vector2(-jumpForce*4, jumpForce));
-                jumpButton = false;
-            }
-            if (!facingRight)
-            {
-                myRigidBody.AddForce(new Vector2(jumpForce*4, jumpForce));
-                jumpButton = false;
-            }
-        }
-
-        //Wall Slide
-        if (onWall)
-        {
-           // myRigidBody.velocity = new Vector2(0, -2f);
         }
 
     }
@@ -111,7 +97,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    /*
+    private void Shoot()
+    {
+        foreach(GameObject point in faces)
+        {
+            Rigidbody pBulletClone = Instantiate(pBullet, point.transform.position, point.transform.rotation);
+        }
+    }
+
+    
     private void OnTriggerStay(Collider other)
     {
 
@@ -126,20 +120,14 @@ public class PlayerController : MonoBehaviour {
     {
         grounded = false;
     }
-    */
+    
+    public bool getFacingRight()
+    {
+        return facingRight;
+    }
 
     public void setGrounded(bool isGrounded)
     {
         grounded = isGrounded;
-    }
-
-    public void setOnWall(bool _onWall)
-    {
-        onWall = _onWall;
-    }
-
-    public bool getFacingRight()
-    {
-        return facingRight;
     }
 }

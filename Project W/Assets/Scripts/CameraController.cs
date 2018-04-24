@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+    private const float Y_ANGLE_MIN = 0.0F;
+    private const float Y_ANGLE_MAX = 50.0f;
+
 
     private GameObject player;
     private PlayerController playerScript;
@@ -15,17 +18,14 @@ public class CameraController : MonoBehaviour {
     private Vector3 offset;
     [SerializeField]
     private Vector3 offsetR;
-    [SerializeField]
+ 
     private float currentX = 0.0f;
-    [SerializeField]
     private float currentY = 0.0f;
-
     private float smoothSpeed = 4f;
-
     private float distance = 10.0f;
   
-  //  private float sensitivityX = 4.0f;
-  //  private float sensitivityY = 1.0f;
+    public float sensitivityX = 3.0f;
+    public float sensitivityY = 2.0f;
 
 
 
@@ -45,7 +45,9 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        currentX += Input.GetAxis("Mouse X") * sensitivityX;
+        currentY += Input.GetAxis("Mouse Y") * sensitivityY;
+        currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
     }
 
     private void LateUpdate()
@@ -53,33 +55,13 @@ public class CameraController : MonoBehaviour {
         Vector3 dir = new Vector3(0, 0, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         camTransform.position = target.position + rotation * dir;
+        camTransform.LookAt(target.position);
     }
 
     void FixedUpdate()
     {
-       // moveCamera();
+        
     }
 
-    private void moveCamera()
-    {
-
-        bool facingRight = playerScript.getFacingRight();
-
-        Vector3 desiredposition;
-
-        if (facingRight)
-        {
-            desiredposition = target.position + offset;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredposition, smoothSpeed * Time.deltaTime);
-            transform.position = smoothedPosition;
-        }
-        if (!facingRight)
-        {
-            desiredposition = target.position + offsetR;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredposition, smoothSpeed * Time.deltaTime);
-            transform.position = smoothedPosition;
-        }
-
-    }
 
 }

@@ -13,10 +13,15 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     GameObject[] faces;
 
+    private float rotationX = 0.0f;
+    private float rotationSpeed;
+    private Transform camTransform;
+
 
     private Rigidbody myRigidBody;
+    private Vector3 moveVector;
+
     private bool grounded;
-    private bool onWall;
 
     private bool facingRight;
 
@@ -37,16 +42,16 @@ public class PlayerController : MonoBehaviour {
 
 
         HandleInput();
-        Flip(horizontal);
         //Debug.Log();
 	}
 
     private void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        moveVector = DirInput();
 
-        Movement(horizontal, vertical);
+        moveVector = RotateWithView();
+
+        Movement();
     }
 
     private void HandleInput()
@@ -64,10 +69,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void Movement(float horizontal, float vertical)
+    private void Movement()
     {
         //Movement
-        myRigidBody.velocity = new Vector3(horizontal * moveSpeed, myRigidBody.velocity.y,vertical * (moveSpeed/2));
+        //myRigidBody.velocity = new Vector3(horizontal * moveSpeed, myRigidBody.velocity.y,vertical * (moveSpeed/2));
+        myRigidBody.AddForce((moveVector * moveSpeed));
+
+
+        //Rotate with camera
 
         
         //Jump
@@ -79,29 +88,41 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    private void Flip(float horizontal)
-    {
-        Vector3 scale = transform.localScale;
-
-        if (horizontal < 0 && facingRight)
-        {
-            scale.x *= -1;
-            transform.localScale = scale;
-            facingRight = false;
-        }
-        if (horizontal > 0 && !facingRight)
-        {
-            scale.x *= -1;
-            transform.localScale = scale;
-            facingRight = true;
-        }
-    }
-
     private void Shoot()
     {
         foreach(GameObject point in faces)
         {
             Rigidbody pBulletClone = Instantiate(pBullet, point.transform.position, point.transform.rotation);
+        }
+    }
+
+    private Vector3 DirInput()
+    {
+        Vector3 dir = Vector3.zero;
+
+        dir.x = Input.GetAxis("Horizontal");
+        dir.z = Input.GetAxis("Vertical");
+
+        if(dir.magnitude > 1)
+        {
+            dir.Normalize();
+        }
+
+        return dir;
+    }
+
+    private Vector3 RotateWithView()
+    {
+        if (camTransform != null)
+        {
+            Vector3 dir = camTransform.TransformDirection(moveVector);
+            dir.Set(dir.x, 0, dir.z);
+            return dir.normalized * moveVector.magnitude;
+        }
+        else
+        {
+            camTransform = Camera.main.transform;
+            return moveVector;
         }
     }
 
@@ -121,13 +142,5 @@ public class PlayerController : MonoBehaviour {
         grounded = false;
     }
     
-    public bool getFacingRight()
-    {
-        return facingRight;
-    }
 
-    public void setGrounded(bool isGrounded)
-    {
-        grounded = isGrounded;
-    }
 }

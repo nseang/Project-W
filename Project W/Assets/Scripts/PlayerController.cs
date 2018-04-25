@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
 
     [SerializeField]
     private float jumpForce;
@@ -12,9 +13,11 @@ public class PlayerController : MonoBehaviour {
     Rigidbody pBullet;
     [SerializeField]
     GameObject[] faces;
+    [SerializeField]
+    Camera mCam;
 
-    private float rotationX = 0.0f;
-    private float rotationSpeed;
+    //private float rotationX = 0.0f;
+    //private float rotationSpeed;
     private Transform camTransform;
 
 
@@ -22,23 +25,30 @@ public class PlayerController : MonoBehaviour {
     private Vector3 moveVector;
 
     private bool grounded;
-
-    private bool facingRight;
-
     private bool jumpButton;
 
 	// Use this for initialization
 	void Start () {
 
         myRigidBody = GetComponent<Rigidbody>();
-        facingRight = true;
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-        float horizontal = Input.GetAxis("Horizontal");
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        Instantiate(mCam, transform.position, transform.rotation);
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+       // float horizontal = Input.GetAxis("Horizontal");
 
 
         HandleInput();
@@ -47,6 +57,9 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer)
+            return;
+
         moveVector = DirInput();
 
         moveVector = RotateWithView();
@@ -65,18 +78,14 @@ public class PlayerController : MonoBehaviour {
         //Shoot
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
+            //Shoot();
         }
     }
 
     private void Movement()
     {
         //Movement
-        //myRigidBody.velocity = new Vector3(horizontal * moveSpeed, myRigidBody.velocity.y,vertical * (moveSpeed/2));
         myRigidBody.AddForce((moveVector * moveSpeed));
-
-
-        //Rotate with camera
 
         
         //Jump

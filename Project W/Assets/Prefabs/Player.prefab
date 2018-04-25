@@ -62,6 +62,8 @@ GameObject:
   - component: {fileID: 114054148066359708}
   - component: {fileID: 65433113030171996}
   - component: {fileID: 135335816351038860}
+  - component: {fileID: 114363511941999014}
+  - component: {fileID: 114750709626637526}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -187,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1035930849092212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -37.597, y: 1.79, z: 23.44}
+  m_LocalPosition: {x: -93.2, y: 36.6, z: 23.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4125960982730972}
@@ -648,7 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 6000
-  moveSpeed: 10
+  moveSpeed: 100
   pBullet: {fileID: 54136741026232448, guid: a5503e089a970dc41bd503f0a78d1473, type: 2}
   faces:
   - {fileID: 1014048990253620}
@@ -657,6 +659,60 @@ MonoBehaviour:
   - {fileID: 1053594350748886}
   - {fileID: 1808659881964660}
   - {fileID: 1012845412363866}
+  mCam: {fileID: 20703271217267068, guid: e232c6802c7b68d48882329517738a5c, type: 2}
+--- !u!114 &114363511941999014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035930849092212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 209
+    i1: 202
+    i2: 159
+    i3: 90
+    i4: 134
+    i5: 233
+    i6: 193
+    i7: 196
+    i8: 26
+    i9: 249
+    i10: 47
+    i11: 12
+    i12: 136
+    i13: 232
+    i14: 142
+    i15: 225
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &114750709626637526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035930849092212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!135 &135335816351038860
 SphereCollider:
   m_ObjectHideFlags: 1

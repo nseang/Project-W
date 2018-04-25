@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CameraController : MonoBehaviour {
+
+public class CameraController : NetworkBehaviour {
 
     private const float Y_ANGLE_MIN = 0.0F;
     private const float Y_ANGLE_MAX = 50.0f;
 
 
     private GameObject player;
-    private PlayerController playerScript;
     private Transform target;
     private Transform camTransform;
     private Camera cam;
@@ -35,9 +36,10 @@ public class CameraController : MonoBehaviour {
         camTransform = transform;
         cam = Camera.main;
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerScript = (PlayerController)player.GetComponent(typeof(PlayerController));
-        target = player.transform;
+        FindLocalPlayer();
+
+        //player = GameObject.FindGameObjectWithTag("Player");
+        //target = player.transform;
 
 
     }
@@ -61,6 +63,17 @@ public class CameraController : MonoBehaviour {
     void FixedUpdate()
     {
         
+    }
+
+    public void FindLocalPlayer()
+    {
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player.GetComponent<NetworkIdentity>().isLocalPlayer)
+            {
+                target = player.transform;
+            }
+        }
     }
 
 

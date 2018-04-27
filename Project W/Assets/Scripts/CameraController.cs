@@ -50,6 +50,10 @@ public class CameraController : NetworkBehaviour {
         currentX += Input.GetAxis("Mouse X") * sensitivityX;
         currentY += Input.GetAxis("Mouse Y") * sensitivityY;
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+        if(target == null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void LateUpdate()

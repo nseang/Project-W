@@ -13,11 +13,7 @@ public class PlayerController : NetworkBehaviour {
     Rigidbody pBullet;
     [SerializeField]
     GameObject[] faces;
-    [SerializeField]
-    Camera mCam;
 
-    //private float rotationX = 0.0f;
-    //private float rotationSpeed;
     private Transform camTransform;
 
 
@@ -37,7 +33,6 @@ public class PlayerController : NetworkBehaviour {
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        Instantiate(mCam, transform.position, transform.rotation);
     }
 
     // Update is called once per frame
@@ -47,8 +42,6 @@ public class PlayerController : NetworkBehaviour {
         {
             return;
         }
-
-       // float horizontal = Input.GetAxis("Horizontal");
 
 
         HandleInput();
@@ -78,7 +71,7 @@ public class PlayerController : NetworkBehaviour {
         //Shoot
         if (Input.GetButtonDown("Fire1"))
         {
-            //Shoot();
+            Shoot();
         }
     }
 

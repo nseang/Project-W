@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 135896178977150626}
   - component: {fileID: 64819976678767094}
   - component: {fileID: 64862383666445942}
+  - component: {fileID: 114202086221245582}
+  - component: {fileID: 114625197100916794}
   m_Layer: 8
   m_Name: Death Cube
   m_TagString: Player
@@ -143,6 +145,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114202086221245582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825050121283180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 177
+    i1: 103
+    i2: 165
+    i3: 97
+    i4: 64
+    i5: 156
+    i6: 5
+    i7: 100
+    i8: 75
+    i9: 142
+    i10: 228
+    i11: 116
+    i12: 91
+    i13: 88
+    i14: 131
+    i15: 99
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114422530389016562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,9 +189,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 6000
-  moveSpeed: 10
+  moveSpeed: 100
   pBullet: {fileID: 54136741026232448, guid: a5503e089a970dc41bd503f0a78d1473, type: 2}
   faces: []
+  mCam: {fileID: 20703271217267068, guid: e232c6802c7b68d48882329517738a5c, type: 2}
+--- !u!114 &114625197100916794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1825050121283180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!135 &135896178977150626
 SphereCollider:
   m_ObjectHideFlags: 1

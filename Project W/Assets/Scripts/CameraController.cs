@@ -38,10 +38,6 @@ public class CameraController : NetworkBehaviour {
 
         FindLocalPlayer();
 
-        //player = GameObject.FindGameObjectWithTag("Player");
-        //target = player.transform;
-
-
     }
 
     // Update is called once per frame
@@ -52,7 +48,7 @@ public class CameraController : NetworkBehaviour {
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
         if(target == null)
         {
-            Destroy(gameObject);
+            FindLocalPlayer();
         }
     }
 
@@ -60,8 +56,11 @@ public class CameraController : NetworkBehaviour {
     {
         Vector3 dir = new Vector3(0, 0, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        camTransform.position = target.position + rotation * dir;
-        camTransform.LookAt(target.position);
+        if (target != null)
+        {
+            camTransform.position = target.position + rotation * dir;
+            camTransform.LookAt(target.position);
+        }
     }
 
     void FixedUpdate()
